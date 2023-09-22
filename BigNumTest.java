@@ -1,4 +1,4 @@
-package bignum;
+package homework;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +21,7 @@ class BigNumTest {
     void addsSmallNumbers() {
         BigNum a = new BigNum("2");
         BigNum b = new BigNum("2");
-        BigNum c = a.plus(b);
+        BigNum c = new BigNum(a.plus(b));
         assertEquals("4", c.toString());
     }
 
@@ -29,7 +29,7 @@ class BigNumTest {
     void addsLargeNumbers() {
         BigNum a = new BigNum("5000000206");
         BigNum b = new BigNum("6000000005");
-        BigNum c = a.plus(b);
+        BigNum c = new BigNum(a.plus(b));
         assertEquals("11000000211", c.toString());
     }
 
@@ -46,17 +46,17 @@ class BigNumTest {
     void addsNumbersOfDifferentLengths() {
         BigNum a = new BigNum("12");
         BigNum b = new BigNum("340");
-        BigNum c = a.plus(b);
+        BigNum c = new BigNum(a.plus(b));
         assertEquals("352", c.toString());
-        c = b.plus(a);
-        assertEquals("352", c.toString());
+        BigNum d = new BigNum(b.plus(a));
+        assertEquals("352", d.toString());
     }
 
     @Test
     void multipliesSmallNumbers() {
         BigNum a = new BigNum("2");
         BigNum b = new BigNum("3");
-        BigNum c = a.times(b);
+        BigNum c = new BigNum(a.times(b));
         assertEquals("6", c.toString());
     }
 
@@ -64,7 +64,7 @@ class BigNumTest {
     void multipliesLargeNumbers() {
         BigNum a = new BigNum("20000003");
         BigNum b = new BigNum("40000005");
-        BigNum c = a.times(b);
+        BigNum c = new BigNum(a.times(b));
         assertEquals("800000220000015", c.toString());
     }
 
@@ -81,7 +81,7 @@ class BigNumTest {
     void adds9to99() {
         BigNum a = new BigNum("9");
         BigNum b = new BigNum("99");
-        BigNum c = a.plus(b);
+        BigNum c = new BigNum(a.plus(b));
         assertEquals("108", c.toString());
     }
 
@@ -89,7 +89,7 @@ class BigNumTest {
     void multiplies3by33() {
         BigNum a = new BigNum("3");
         BigNum b = new BigNum("33");
-        BigNum c = a.times(b);
+        BigNum c = new BigNum(a.times(b));
         assertEquals("99", c.toString());
     }
 
