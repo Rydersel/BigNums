@@ -1,93 +1,85 @@
 package homework;
+
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.LinkedList;
-import java.util.ArrayList;
 
 public class BigNum {
+    LinkedList<String> digit_list  = new LinkedList<String>();
+    BigNum(String input){
 
-
-    LinkedList<String> digit_list = new LinkedList<String>();
-    String input;
-
-
-    public BigNum(String input) //constructor
-    {
-
-        this.input = input;
-
-        if (input.equals(""))
-        {
+        if (input.equals("")){
             digit_list.add("0");
         }
 
-        char[] characters = input.toCharArray();
-        String temp;
-        //There's gotta be a way to find the length of string without making array of chars.
-
-        for (int i = 0; i < characters.length;i++)
-        {
-            temp = "" + input.charAt(i);
-            digit_list.add(temp);
+        for (int i =0; i < input.length(); i++){
+            digit_list.add("" + input.charAt(i));
         }
-
     }
 
-    public String toString() {
+    public String toString(){
         StringBuilder s = new StringBuilder();
-
-        // using iterator for looping through linked-list
-
-        for (String value : digit_list) {
+        for (String value : digit_list){
             s.append(value);
         }
-
         return s.toString();
-
-
-    }
-    public String plus(BigNum b) {
-        StringBuilder val1 = new StringBuilder(this.digit_list.size());
-        StringBuilder val2 = new StringBuilder(this.digit_list.size());
-        for (int i=0; i < this.digit_list.size(); i++ )
-        {
-            val1.append(this.digit_list.get(i));
-        }
-        for (int i=0; i< b.digit_list.size(); i++ )
-        {
-            val2.append(b.digit_list.get(i));
-        }
-        System.out.println(val1);
-        System.out.println(val2); //Could make more efficient for larger numbers by adding each row individually
-        long ans = (long) (Long.parseLong(String.valueOf(val1))) + Long.parseLong(String.valueOf(val2));
-        return Long.toString(ans);
     }
 
-    public String times(BigNum b) {
-        StringBuilder val1 = new StringBuilder(this.digit_list.size());
-        StringBuilder val2 = new StringBuilder(this.digit_list.size());
-        for (int i=0; i< this.digit_list.size(); i++ )
-        {
-            val1.append(this.digit_list.get(i));
+    public void makeNumsSameLength(BigNum a, BigNum b){
+        int max_str_len = Math.max(a.digit_list.size(), b.digit_list.size());
+        int a_size = a.digit_list.size();
+        int b_size = b.digit_list.size();
+        if (a_size != b_size){
+            for (int i = Math.min(a_size, b_size); i < max_str_len; i++){
+                if (a_size > b_size){
+                    b.digit_list.addFirst("0");
+                }
+                else {
+                    a.digit_list.addFirst("0");
+                }
+            }
         }
-        for (int i=0; i< b.digit_list.size(); i++ )
-        {
-            val2.append(b.digit_list.get(i));
+    }
+
+    public BigNum plus(BigNum a) {
+        makeNumsSameLength(this, a);
+
+        int max_str_len = Math.max(this.digit_list.size(), a.digit_list.size());
+
+        StringBuilder c_String = new StringBuilder();
+        for (int i = max_str_len - 1 ; i >= 0; i--){
+            String this_digit = this.digit_list.get(i);
+            String a_digit = a.digit_list.get(i);
+            int digit_answer = Integer.parseInt(String.valueOf(this_digit)) + Integer.parseInt(String.valueOf(a_digit));
+            if (digit_answer >= 10){
+                if (i == 0){
+                    this.digit_list.addFirst("0");
+                    a.digit_list.addFirst("0");
+                    i = i+1;
+                }
+                int add_to_next = digit_answer / 10;
+                int next_digit = Integer.parseInt(String.valueOf(this.digit_list.get(i - 1)));
+                this.digit_list.set(i-1, Integer.toString(next_digit + add_to_next) );
+                digit_answer = digit_answer % 10;
+            }
+
+            c_String.insert(0, Integer.toString(digit_answer));
         }
-        System.out.println(val1);
-        System.out.println(val2); //Could make more efficient for larger numbers by adding each row individually
-        long ans = (long) (Long.parseLong(String.valueOf(val1))) * Long.parseLong(String.valueOf(val2));
-        return Long.toString(ans);
+
+        return new BigNum(c_String.toString());
     }
-    public static void main(String[] args) {
-        BigNum a = new BigNum("5052342238445733234");
-        BigNum b = new BigNum("43233224385555557"); //Will not be able to deal with numbers larger then 9,223,372,036,854,775,807 due to the limits of longs
 
-        System.out.println(a.plus(b));
+    public BigNum times(BigNum b) {
+        BigNum product = new BigNum("0");
+        BigNum counter = new BigNum("0");
 
 
+//        Works, but very inefficient with long numbers
+//        while(!(counter.toString().equals(b.toString()))){
+//            product = new BigNum(product.plus(this).toString());
+//            counter = new BigNum(counter.plus(new BigNum("1")).toString());
+//        }
+        return product;
     }
+
 }
-
-
-
-
-
